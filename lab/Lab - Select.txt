@@ -232,10 +232,22 @@ select s.SupplierID, CompanyName, ProductID, ProductName
 /* 510
   請列出「有買 23 號產品, 而且買超過 20 個」的訂單。
  */ 
+
+
+select * from orders where productid =23 and quantity >20
+
+－－－用join a on b 合併表格－－－
+
+select o.orderid , productid, quantity, customerid
+from orders as o join `order details` as od on o.orderid = od.orderid  
+where productid = 23 and quantity > 20 order by orderid,productid
+
+－－－用 in 的寫法－－－
 select orderid, customerid from orders 
-  where orderid in 
+where orderid in 
   (select orderid from `order details` 
-    where productid = 23 and quantity > 20)
+  where productid = 23 and quantity > 20)
+
 
 
 起
@@ -262,6 +274,7 @@ select orderid from `order details` where productID = 23 and quantity > 20)
 /* 520
   請列出目前資料庫最後一天有經手訂單處理的員工清單。
 */
+
 select EmployeeID, FirstName, LastName from Employees
   where EmployeeID in 
   (
@@ -333,4 +346,34 @@ select productID, ProductName, UnitPrice
 
 
 
-    
+select customerid,companyname from customers where customerid Like `A%` union 
+select customerid,companyname from customers where customerid Like `B%`   
+
+----join---４個表合併
+----DISTINCT---->若紀錄相同，只留一筆
+
+select DISTINCT c.customerid , companyname, p.productid, o.orderid,ProductName
+from customers c join orders o on o.customerid = c.customerid 
+                 join `order details` od on od.orderid =o.orderid
+                 join products p on p.productid = od.productid
+order by c.customerid,p.productid
+
+
+create index idx_cus
+
+
+
+select * from customers;
+select * from orders;
+select * from `order details`;
+select * from products;
+
+select * from orders 
+ order by OrderDate DESC limit 10
+
+ select * from
+ (
+   select * from orders
+   order by OrderDate DESC limit 10
+ ) as 
+ order by OrderDate 
