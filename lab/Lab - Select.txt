@@ -6,8 +6,12 @@ use Northwind;
   請寫一道 Query 列出:
   products table 中的所有產品資料
  */ 
-
+---練習---
 select * from products
+
+ ---老師正解---
+select * from products
+
 
 
 /* 120 
@@ -16,7 +20,12 @@ select * from products
   請列出以下欄位
   ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
  */ 
+ ---練習---
+select productID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel from products
 
+select productID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel from products
+
+ ---老師正解---
 select ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
   from products
 
@@ -27,8 +36,10 @@ select ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLev
   請列出以下欄位
   ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
  */ 
+ ---練習---
+select productID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel from products where UnitsInStock < ReorderLevel
 
-
+ ---老師正解---
 select ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
   from products
   where UnitsInStock < ReorderLevel
@@ -40,7 +51,13 @@ select ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLev
   請列出以下欄位
   ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
  */ 
+ ---練習---
+select productID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel from products 
+where (UnitsInStock + UnitsOnOrder) < ReorderLevel
 
+
+
+---老師正解---
 select ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
   from products
   where (UnitsInStock + UnitsOnOrder) < ReorderLevel
@@ -53,7 +70,11 @@ select ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLev
   SupplierID, ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
   並且, 相同供應商代號(SupplierID)的產品請排在一起
  */ 
+ ---練習---
+select supplierID, productID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel from products
+where UnitsInStock < ReorderLevel order by supplierID
 
+---老師正解---
 select SupplierID, ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder, ReorderLevel
   from products
   where UnitsInStock < ReorderLevel
@@ -64,7 +85,10 @@ select SupplierID, ProductID, ProductName, UnitPrice, UnitsInStock, UnitsOnOrder
   請寫一道 Query 列出:
   products table 產品名稱以 c 開頭的資料
  */ 
+ ---練習---
+select * from products where ProductName Like 'C%'
 
+---老師正解---
 select *
   from products
   where ProductName Like 'c%'
@@ -75,7 +99,10 @@ select *
   products table 類別編號(CategoryID)為 1, 4, 8 的產品資料
   排序時, 請按"類別編號"排序, 相同類別編號的產品按產品名稱(ProductName)排列
  */ 
+ ---練習---
+select * from products where categoryID in(1,4,8) order by categoryID, ProductName
 
+---老師正解---
 select *
   from products
   where CategoryID in (1, 4, 8)
@@ -87,7 +114,11 @@ select *
   products table 單價介於 10 到 20 元之間(包含 10, 20)的產品資料
   並且按照單價(UnitPrice)由大到小排序
  */ 
+ ---練習---
+select * from products where UnitPrice >=10 and UnitPrice<=20 order by UnitPrice desc
+select * from products where UnitPrice between 10 and 20 order by UnitPrice desc
 
+---老師正解---
 select *
   from products
   where UnitPrice between 10 and 20
@@ -96,7 +127,10 @@ select *
 /* 190
   請寫一道 Query 列出: 傳真電話(fax)是「空白」的供應商(suppliers)公司名稱
 */
+ ---練習---
+select companyname, fax from suppliers where fax IS NULL
 
+---老師正解---
 SELECT companyname, fax
   FROM suppliers
   WHERE fax IS NULL;
@@ -109,16 +143,24 @@ SELECT companyname, fax
   ProductID, ProductName, UnitPrice, 不過, 各欄位名稱請用中文顯示
   產品編號, 產品名稱, 單價
  */ 
+ ---練習---
+ select productID as `產品編號`, ProductName as `產品名稱`, UnitPrice as `單價` from products
 
+
+---老師正解---
 select ProductID as `產品編號`, ProductName as `產品名稱`, UnitPrice as `單價`, 
-  (UnitPrice * UnitsInStock) as StockCost
+  (UnitPrice * UnitsInStock) as StockCost--------------------------------------------???
   from products
 
 
 /* 220 
   請查 suppliers 資料表, 供應商來自哪些國家? (相同的國名, 只列一筆即可)
  */ 
+ ---練習---
+select DISTINCT country from suppliers order by country
 
+
+---老師正解---
 SELECT DISTINCT country
  FROM suppliers
  ORDER BY country;
@@ -127,7 +169,11 @@ SELECT DISTINCT country
 /* 220 
   請列出 UnitPrice 最貴的前三項產品 (products)
  */ 
+ ---練習---
+select * from products order by UnitPrice desc limit 3
+select productID, ProductName, UnitPrice from products order by UnitPrice desc limit 3
 
+---老師正解---
 select productID, ProductName, UnitPrice 
   from products
   order by UnitPrice DESC
@@ -136,7 +182,10 @@ select productID, ProductName, UnitPrice
 /* 230 
   為什麼下列的指令傳回空集合?
  */ 
+ ---練習---
+因為無小寫c的資料
 
+---老師正解---
 select *
   from products
   where ProductName Like binary 'c%'
@@ -144,18 +193,29 @@ select *
 /* 310
   按照員工資料表(employees)的內容, 請查出一共有幾位員工?
  */
+ ---練習---
+select COUNT(*) from employees----包含NULL值
+ 
+---老師正解---
 SELECT COUNT(*) FROM employees
 
 
 /* 320
   按照員工資料表(employees)的內容, ReportsTo有資料的記錄一共幾筆?
  */
+ ---練習---
+select COUNT(reportsto) from employees----不包含NULL值
+ 
+---老師正解---
 SELECT COUNT(reportsto) FROM employees
 
 /* 330
   下列的指令, 請問錯了嗎?
  */
-
+---練習---
+可以執行，但是 productID 可以不用
+ 
+---老師正解---
 select categoryID, productID, AVG(UnitPrice)
   from products
   group by categoryID
@@ -165,7 +225,10 @@ select categoryID, productID, AVG(UnitPrice)
   categoryID 是產品類別的代號, 請統計各類產品(products)的庫存成本?
   庫存成本請直接以: 庫存量 * 牌價 (UnitsInStock * UnitPrice) 計算即可.
  */
-
+---練習---
+select categoryID, SUM(UnitsInStock*UnitPrice) from products group by categoryID
+ 
+---老師正解---
 select categoryID, Sum(UnitsInStock * UnitPrice)
   from products
   group by categoryID;
@@ -173,7 +236,11 @@ select categoryID, Sum(UnitsInStock * UnitPrice)
 /* 350
   同上, 但庫存成本超過 12000 才要列出.
  */
+---練習---
+select categoryID, SUM(UnitsInStock*UnitPrice) from products group by categoryID having Sum(UnitsInStock * UnitPrice)>12000
 
+ 
+---老師正解---
 select categoryID, Sum(UnitsInStock * UnitPrice)
   from products
   group by categoryID
@@ -183,7 +250,12 @@ select categoryID, Sum(UnitsInStock * UnitPrice)
   請從 order details 統計各項產品銷售總和, 並且一併列出
   該產品的銷售明細.
  */
-
+---練習---
+SELECT ProductID, orderid, SUM(quantity) AS total_quantity 
+FROM `ORDER details` GROUP BY ProductID, orderid 
+WITH ROLLUP---->意義是啥?
+ 
+---老師正解---
 SELECT productid, orderid, SUM(quantity) AS total_quantity
  FROM `order details`
  GROUP BY productid, orderid
@@ -193,7 +265,10 @@ SELECT productid, orderid, SUM(quantity) AS total_quantity
   請寫一道 Query 列出 products 資料表的以下欄位
   ProductID, ProductName, SupplierID
  */ 
-
+---練習---
+SELECT ProductID, ProductName, SupplierID FROM products
+ 
+---老師正解---
 select ProductID, ProductName, SupplierID from products
 
 
@@ -202,6 +277,11 @@ select ProductID, ProductName, SupplierID from products
    聯絡電話(Phone)、聯絡人(ContactName)好嗎?
    另外, 相同供應商的資料請列在一起
  */ 
+ ---練習---
+SELECT ProductID, ProductName AS PN, P.SupplierID, CompanyName, Phone, ContactName 
+FROM products P join suppliers S on P. SupplierID = S.SupplierID ORDER BY P.SupplierID
+ 
+---老師正解---
 select ProductID, ProductName as PN, p.SupplierID, CompanyName, Phone, ContactName 
   from products p join suppliers s
   on p.SupplierID = s.SupplierID
@@ -221,7 +301,13 @@ select ProductID, ProductName as PN, p.SupplierID, CompanyName, Phone, ContactNa
      (30, 'Taiwan First', 'A-Ban', '(001) 000-0001')
    -- end --
  */ 
+---練習---
+SELECT S.SupplierID, CompanyName, ProductID, ProductName 
+FROM suppliers S left join products P on S.SupplierID = P.SupplierID
+ORDER BY S.SupplierID
 
+
+---老師正解---
 select s.SupplierID, CompanyName, ProductID, ProductName 
   from suppliers s left join products p
   on s.SupplierID = p.SupplierID
@@ -232,9 +318,16 @@ select s.SupplierID, CompanyName, ProductID, ProductName
 /* 510
   請列出「有買 23 號產品, 而且買超過 20 個」的訂單。
  */ 
+---練習---
+SELECT * FROM Orders WHERE ProductID = 23 and quantity>20
 
 
-select * from orders where productid =23 and quantity >20
+select O.orderid,  ProductID, quantity, customerid 
+from orders  O join `Order details` OD on O.orderid =OD.orderid
+where productid =23 and quantity >20 ORDER BY orderid, ProductID
+---老師正解---
+
+
 
 －－－用join a on b 合併表格－－－
 
