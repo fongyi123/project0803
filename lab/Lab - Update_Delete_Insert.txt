@@ -10,7 +10,8 @@ insert Shippers
 (ShipperID,CompanyName,Phone)
 values (4,'Never Lose','(040)0048126')
 
-
+insert into Shippers
+(ShipperID, CompanyName, Phone) values (4, 'Never Lose','(040)0048126')
 －－－老師正解－－－
 insert into Shippers
   (ShipperID, CompanyName, Phone)
@@ -26,6 +27,10 @@ insert into Shippers
 
 update Shippers
 set CompanyName='Never Lost', Phone ='(123)1234567'
+where ShipperID = 4
+
+update Shippers 
+set CompanyName = 'Never Lost',Phone='(123)1234567'
 where ShipperID = 4
 
 
@@ -73,8 +78,11 @@ update products
   請寫一道 Query 刪除剛才那筆 Never Lost 運輸公司的資料
  */ 
 －－－練習－－－
-delete Shippers
+delete from Shippers
 where  ShipperID = 4
+
+delete from Shippers
+where ShipperID = 4
 
 
 －－－老師正解－－－
